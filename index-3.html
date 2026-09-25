@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Karamjot Singh — Networking & Hardware Portfolio</title>
+<meta name="description" content="Portfolio of Karamjot Singh, Computer Networking Systems student at San José State University.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  /* Palette: the four twisted pairs of an Ethernet cable (T568B) */
+  :root {
+    --bg: #F4F5F2;
+    --surface: #FFFFFF;
+    --ink: #1C2230;
+    --muted: #5A6070;
+    --rule: #D9DCD6;
+    --orange: #D9711C;
+    --green: #2E8554;
+    --blue: #2B57A0;
+    --brown: #7A4E2D;
+    --wire-white: #FBFBF8;
+    --focus: #2B57A0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151A22; --surface: #1C222C; --ink: #E7E9E4; --muted: #A2A8B4; --rule: #2E3542;
+      --orange: #F08A36; --green: #4FB07A; --blue: #6E97E0; --brown: #B7825A;
+      --wire-white: #DCDDD6; --focus: #6E97E0;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151A22; --surface: #1C222C; --ink: #E7E9E4; --muted: #A2A8B4; --rule: #2E3542;
+    --orange: #F08A36; --green: #4FB07A; --blue: #6E97E0; --brown: #B7825A;
+    --wire-white: #DCDDD6; --focus: #6E97E0;
+  }
+
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; }
+  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* Nav */
+  nav { padding: 1.25rem 0; }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  nav .mark { font-weight: 800; text-decoration: none; letter-spacing: -0.01em; }
+  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; font-size: 0.95rem; }
+  nav ul a { text-decoration: none; color: var(--muted); }
+  nav ul a:hover { color: var(--ink); }
+
+  /* Hero */
+  .hero { padding: 3.5rem 0 0; }
+  .hero h1 {
+    font-size: clamp(2.75rem, 9vw, 5rem);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin: 0 0 1.25rem;
+  }
+  .hero .lede { font-size: 1.25rem; line-height: 1.5; max-width: 34rem; margin: 0 0 2rem; color: var(--ink); }
+  .hero .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 3rem; }
+  .btn {
+    display: inline-block; padding: 0.7rem 1.2rem; font-weight: 700; font-size: 0.98rem;
+    text-decoration: none; border: 2px solid var(--ink); border-radius: 3px;
+  }
+  .btn.primary { background: var(--ink); color: var(--bg); }
+  .btn.primary:hover { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--bg); }
+
+  /* The signature element: eight wires in T568B order */
+  .cable { display: grid; gap: 5px; margin: 0; }
+  .wire { height: 9px; border-radius: 5px; transform-origin: left center; }
+  .w-o { background: var(--orange); }
+  .w-g { background: var(--green); }
+  .w-b { background: var(--blue); }
+  .w-n { background: var(--brown); }
+  .w-wo, .w-wg, .w-wb, .w-wn { background-color: var(--wire-white); box-shadow: inset 0 0 0 1px var(--rule); }
+  .w-wo { background-image: repeating-linear-gradient(115deg, var(--orange) 0 10px, transparent 10px 26px); }
+  .w-wg { background-image: repeating-linear-gradient(115deg, var(--green) 0 10px, transparent 10px 26px); }
+  .w-wb { background-image: repeating-linear-gradient(115deg, var(--blue) 0 10px, transparent 10px 26px); }
+  .w-wn { background-image: repeating-linear-gradient(115deg, var(--brown) 0 10px, transparent 10px 26px); }
+  .cable-caption { font-size: 0.85rem; color: var(--muted); margin: 0.75rem 0 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .wire { animation: run 0.9s cubic-bezier(.2,.7,.2,1) both; }
+    .wire:nth-child(2) { animation-delay: .05s } .wire:nth-child(3) { animation-delay: .1s }
+    .wire:nth-child(4) { animation-delay: .15s } .wire:nth-child(5) { animation-delay: .2s }
+    .wire:nth-child(6) { animation-delay: .25s } .wire:nth-child(7) { animation-delay: .3s }
+    .wire:nth-child(8) { animation-delay: .35s }
+    @keyframes run { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  }
+
+  /* Sections */
+  section { padding: 4.5rem 0 0; }
+  h2 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 1.25rem; }
+  h3 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; margin: 0; }
+  p { margin: 0 0 1rem; }
+  .muted { color: var(--muted); }
+
+  /* Projects: each one is tagged with a pair colour */
+  .project { border-top: 3px solid var(--pair); padding: 1.5rem 0 2.25rem; }
+  .project-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+  .status { font-size: 0.85rem; font-weight: 500; color: var(--pair); }
+  .project dl { margin: 0; display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.6rem 1.25rem; }
+  .project dt { font-weight: 700; font-size: 0.95rem; }
+  .project dd { margin: 0; }
+  @media (max-width: 34rem) {
+    .project dl { grid-template-columns: 1fr; gap: 0.15rem; }
+    .project dd { margin-bottom: 0.75rem; }
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1.1rem 0 0; padding: 0; list-style: none; }
+  .tags li { font-size: 0.82rem; padding: 0.2rem 0.6rem; border: 1px solid var(--rule); border-radius: 999px; color: var(--muted); }
+  .p-orange { --pair: var(--orange); }
+  .p-green { --pair: var(--green); }
+  .p-blue { --pair: var(--blue); }
+  .p-brown { --pair: var(--brown); }
+
+  /* Skills and certifications */
+  .split { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 2rem; }
+  .split h3 { font-size: 1.05rem; margin-bottom: 0.6rem; }
+  .plain { list-style: none; margin: 0; padding: 0; }
+  .plain li { padding: 0.45rem 0; border-bottom: 1px solid var(--rule); }
+  .plain li span { display: block; font-size: 0.88rem; color: var(--muted); }
+
+  /* Contact */
+  .contact { padding-bottom: 5rem; }
+  .contact .big { font-size: clamp(1.4rem, 4.5vw, 2rem); font-weight: 700; letter-spacing: -0.015em; word-break: break-word; }
+  footer { border-top: 1px solid var(--rule); padding: 1.5rem 0 2rem; font-size: 0.88rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main">
+  <div class="wrap">
+    <a class="mark" href="#top">Karamjot Singh</a>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero">
+    <div class="wrap">
+      <h1>Karamjot Singh</h1>
+      <p class="lede">I study Computer Networking Systems at San José State University. I configure Cisco networks, solder circuit boards, and write down every fix so the next one goes faster.</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">See my projects</a>
+        <!-- Upload your resume PDF next to this file as resume.pdf when you host on GitHub Pages -->
+        <a class="btn ghost" href="resume.pdf">Download resume</a>
+      </div>
+      <figure class="cable" aria-label="Eight Ethernet wires in T568B colour order">
+        <div class="wire w-wo"></div>
+        <div class="wire w-o"></div>
+        <div class="wire w-wg"></div>
+        <div class="wire w-b"></div>
+        <div class="wire w-wb"></div>
+        <div class="wire w-g"></div>
+        <div class="wire w-wn"></div>
+        <div class="wire w-n"></div>
+      </figure>
+      <p class="cable-caption">T568B pin order. Each project below is tagged with one of the four pair colours.</p>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap">
+      <h2>About</h2>
+      <p>I'm working toward a B.S. in Engineering Technology with a minor in Business Management, graduating in 2029. I hold two Cisco CCNA certifications, and I like problems that span both the network and the hardware underneath it.</p>
+      <p>Before college, I spent three years helping run community food and water distributions in Sunnyvale, which taught me to keep things on schedule when plans change. I speak English, Punjabi, and Hindi fluently, plus intermediate Spanish.</p>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <h2>Projects</h2>
+
+      <article class="project p-blue">
+        <div class="project-head">
+          <h3>Home network lab</h3>
+          <span class="status">Ongoing since 2025</span>
+        </div>
+        <dl>
+          <dt>Goal</dt>
+          <dd>Practice enterprise networking on real and simulated gear instead of only reading about it.</dd>
+          <dt>What I built</dt>
+          <dd>A lab using Cisco Packet Tracer and physical hardware, with VLAN segmentation, inter-VLAN routing, subnetting, and scenarios covering STP, OSPF, and NAT.</dd>
+          <dt>What I learned</dt>
+          <dd>Documenting each topology and troubleshooting step turned one-off fixes into a reference I reuse.</dd>
+        </dl>
+        <ul class="tags"><li>Cisco IOS</li><li>VLANs</li><li>OSPF</li><li>STP</li><li>NAT</li><li>Packet Tracer</li></ul>
+        <!-- Add a topology diagram here: <img src="lab-topology.png" alt="Home lab network topology"> -->
+      </article>
+
+      <article class="project p-orange">
+        <div class="project-head">
+          <h3>Infrared receiver board for a robot</h3>
+          <span class="status">Robotics team project</span>
+        </div>
+        <dl>
+          <dt>Goal</dt>
+          <dd>Give our robot a sensor that could detect and tell apart red and green infrared beacons.</dd>
+          <dt>What I built</dt>
+          <dd>I assembled and soldered the board, installing more than eight component types including resistors, capacitors, transistors, ICs, IR detectors, LEDs, and a fuse, while checking values and polarity.</dd>
+          <dt>What went wrong</dt>
+          <dd>The finished board didn't work. I ran power and continuity tests, found weak solder joints, and reworked them one at a time.</dd>
+          <dt>Result</dt>
+          <dd>My team and I validated a working backup board, and the robot completed its beacon-detection and retrieval tasks.</dd>
+        </dl>
+        <ul class="tags"><li>Soldering</li><li>Circuit assembly</li><li>Continuity testing</li><li>Debugging</li></ul>
+        <!-- Add a photo of the board here -->
+      </article>
+
+      <article class="project p-green">
+        <div class="project-head">
+          <h3>Power monitoring device</h3>
+          <span class="status">Planned</span>
+        </div>
+        <dl>
+          <dt>Goal</dt>
+          <dd>Measure how much power everyday devices draw and view the readings over Wi-Fi.</dd>
+          <dt>Plan</dt>
+          <dd>An ESP32 microcontroller with a current and voltage sensor, sending readings to a small web dashboard.</dd>
+        </dl>
+        <ul class="tags"><li>ESP32</li><li>Sensors</li><li>Wi-Fi</li></ul>
+      </article>
+
+      <article class="project p-brown">
+        <div class="project-head">
+          <h3>Network automation scripts</h3>
+          <span class="status">Planned</span>
+        </div>
+        <dl>
+          <dt>Goal</dt>
+          <dd>Stop configuring switches by hand for repetitive tasks.</dd>
+          <dt>Plan</dt>
+          <dd>Python scripts that back up device configs, check interface status, and push VLAN changes across my lab.</dd>
+        </dl>
+        <ul class="tags"><li>Python</li><li>Netmiko</li><li>Automation</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <h2>Skills and certifications</h2>
+      <div class="split">
+        <div>
+          <h3>Technical</h3>
+          <ul class="plain">
+            <li>Cisco networking and TCP/IP</li>
+            <li>Subnetting and VLANs</li>
+            <li>Routing and switching protocols (OSPF, STP)</li>
+            <li>Soldering and board-level troubleshooting</li>
+            <li>Microsoft Office and Google Workspace</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Certifications</h3>
+          <ul class="plain">
+            <li>CCNA: Switching, Routing, and Wireless Essentials<span>Cisco Networking Academy, 2026</span></li>
+            <li>CCNA: Introduction to Networks<span>Cisco Networking Academy / SJSU, 2025</span></li>
+            <li>Adult and Pediatric First Aid / CPR / AED<span>American Red Cross, 2026</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <p>I'm looking for internships in networking, IT, and hardware. The fastest way to reach me is email.</p>
+      <p class="big"><a href="mailto:singhkaramjot746@gmail.com">singhkaramjot746@gmail.com</a></p>
+      <p>
+        <a href="https://www.linkedin.com/in/karamjot-singh-46ba78292/">LinkedIn</a>
+        &nbsp;&nbsp;
+        <a href="https://github.com/Ksingh077">GitHub</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Karamjot Singh, San José, CA</div>
+</footer>
+
+</body>
+</html>
